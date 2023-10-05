@@ -2,18 +2,19 @@
 
 from fastapi import FastAPI
 from pydantic import BaseModel
-import dill
+import dill, pickle
 from utils import Preprocessor
 import pandas as pd
 
-# create api
+
+# # create api
 app = FastAPI()
 
-# load GB model
+# # load GB model
 with open('gb.pkl', 'rb') as f:
     model = dill.load(f)
 
-# type checking class thru pydantic
+# # type checking class thru pydantic
 class ScoringItem(BaseModel):
     TransactionDate: str
     HouseAge: float
@@ -30,5 +31,11 @@ async def scoring_endpoint(item: ScoringItem):
     }
 
 
-# cd app
-# uvicorn api:app --reload
+# # cd app
+# # uvicorn api:app --reload
+
+# import dill, pandas as pd, pickle
+# with open('gb.pkl', 'rb') as f:
+#     reloaded_model = pickle.load(f)
+# item = {"TransactionDate":"2020.12","HouseAge":17.0,"DistanceToStation":467.6447748,"NumberOfPubs":4.0,"PostCode":"5222.0"}
+# print(reloaded_model.predict(pd.DataFrame([item.values()], columns=item.keys())))
